@@ -1,0 +1,25 @@
+/ Retrieve local storage data
+const localStorageData = {};
+for (let i = 0; i < localStorage.length; i++) {
+  const key = localStorage.key(i);
+  const value = localStorage.getItem(key);
+  localStorageData[key] = value;
+}
+
+// Convert data to JSON
+const jsonData = JSON.stringify(localStorageData, null, 2);
+
+// Create a Blob with the JSON data
+const blob = new Blob([jsonData], { type: 'application/json' });
+
+// Create a download link
+const link = document.createElement('a');
+link.href = URL.createObjectURL(blob);
+link.download = 'local_storage_data.json';
+
+// Append the link to the document and trigger the click event
+document.body.appendChild(link);
+link.click();
+
+// Clean up
+document.body.removeChild(link);
